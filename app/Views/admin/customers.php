@@ -71,19 +71,19 @@
                             <tbody class="divide-y divide-mono-border">
                                 <?php foreach ($customers as $customer): ?>
                                 <tr class="hover:bg-mono-light-gray transition-colors">
-                                    <td class="py-8">
+                                    <td class="py-2">
                                         <div class="flex items-center gap-4">
                                             <div class="size-10 bg-mono-gray flex items-center justify-center text-[10px] font-bold grayscale border border-mono-border">
-                                                <?= substr($customer['name'], 0, 2) ?>
+                                                <?= substr($customer['name'], 0, 1) ?>
                                             </div>
-                                            <span class="py-8 text-xs font-bold tracking-widest"><?= $customer['name'] ?></span>
+                                            <span class="text-xs font-bold tracking-widest"><?= $customer['name'] ?></span>
                                         </div>
                                     </td>
-                                    <td class="py-8 text-xs font-medium text-mono-soft"><?= $customer['email'] ?></td>
-                                    <td class="py-8 text-xs font-bold tracking-widest">
+                                    <td class=" text-xs font-medium text-mono-soft"><?= $customer['email'] ?></td>
+                                    <td class=" text-xs font-bold tracking-widest">
                                         <?= date('M d, Y', strtotime($customer['created_at'])) ?>
                                     </td>
-                                    <td class="py-8 text-right">
+                                    <td class=" text-right">
                                         <button onclick="viewOrders(<?= $customer['user_id'] ?>)" class="text-[10px] font-bold uppercase tracking-widest hover:underline">
                                             View Orders
                                         </button>

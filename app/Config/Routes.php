@@ -15,7 +15,7 @@ $routes->get('/detail/(:num)', 'Product::detail/$1');
 $routes->get('/login', 'Auth::login');
 $routes->post('/login', 'Auth::attemptLogin');
 $routes->get('/register', 'Auth::register');
-$routes->post('/register', 'Auth::register');
+$routes->post('/register', 'Auth::attemptRegister');
 $routes->get('/logout', 'Auth::logout');
 
 // Cart Routes (AJAX)

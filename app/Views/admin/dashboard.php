@@ -108,13 +108,13 @@
                                     <td class="py-6">
                                         <div class="flex items-center gap-3">
                                             <div class="size-7 bg-mono-gray flex items-center justify-center text-[10px] font-bold">
-                                                <?= substr($order['customer_name'] ?? 'U', 0, 2) ?>
+                                                <?= substr($order['name'] ?? 'U', 0, 1) ?>
                                             </div>
-                                            <span class="text-xs uppercase tracking-wider font-bold"><?= $order['customer_name'] ?? 'User' ?></span>
+                                            <span class="text-xs uppercase tracking-wider font-bold"><?= $order['name'] ?? 'User' ?></span>
                                         </div>
                                     </td>
                                     <td class="py-6 text-[11px] text-gray-500 uppercase tracking-widest">
-                                        <?= date('M d, Y', strtotime($order['order_date'])) ?>
+                                        <?= date('M d, Y H:i:s', strtotime($order['created_at'])) ?>
                                     </td>
                                     <td class="py-6 text-sm font-medium">$<?= number_format($order['total'] ?? 0, 2) ?></td>
                                     <td class="py-6 text-right">

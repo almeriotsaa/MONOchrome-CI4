@@ -29,8 +29,13 @@ class DashboardController extends BaseController
         $data['totalOrders'] = $this->orderModel->countAll();
         $data['totalProducts'] = $this->productModel->countAll();
         $data['totalCustomers'] = $this->userModel->where('role', 'customer')->countAllResults();
-        $data['recentOrders'] = $this->orderModel->orderBy('created_at', 'DESC')->limit(5)->find();
-        
+        $data['recentOrders'] = $this->orderModel
+            ->select('orders.*, users.name')
+            ->join('users', 'users.user_id = orders.user_id')
+            ->orderBy('orders.created_at', 'DESC')
+            ->limit(5)
+            ->find();
+
         return view('admin/dashboard', $data);
     }
 }
