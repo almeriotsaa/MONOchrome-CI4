@@ -108,32 +108,30 @@ function selectSize(size) {
         btn.classList.remove('font-bold', 'border-b', 'border-black');
         btn.classList.add('opacity-40');
     });
-    event.target.classList.add('font-bold', 'border-b', 'border-black');
-    event.target.classList.remove('opacity-40');
+    // Pastikan tombol yang diklik langsung berubah
+    const btn = event.currentTarget; 
+    btn.classList.add('font-bold', 'border-b', 'border-black');
+    btn.classList.remove('opacity-40');
 }
 
 function increaseQty() {
     const qtySpan = document.getElementById('quantity');
-    let qty = parseInt(qtySpan.textContent);
-    qtySpan.textContent = qty + 1;
+    qtySpan.textContent = parseInt(qtySpan.textContent) + 1;
 }
 
 function decreaseQty() {
     const qtySpan = document.getElementById('quantity');
     let qty = parseInt(qtySpan.textContent);
-    if (qty > 1) {
-        qtySpan.textContent = qty - 1;
-    }
+    if (qty > 1) qtySpan.textContent = qty - 1;
 }
 
 function handleAddToCart(productId) {
-    const quantity = parseInt(document.getElementById('quantity').textContent);
-    
     if (!selectedSize) {
-        alert('Please select a size');
+        alert('Please select a size first!');
         return;
     }
-    
+    const quantity = parseInt(document.getElementById('quantity').textContent);
+    // Panggil fungsi yang ada di header.php
     addToCart(productId, quantity, selectedSize);
 }
 </script>

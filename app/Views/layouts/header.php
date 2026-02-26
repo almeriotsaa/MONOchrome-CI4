@@ -111,97 +111,84 @@
         </div>
     </footer>
 
-    <script>
-        function toggleCart() {
-            document.getElementById('cartSidebar').classList.toggle('translate-x-full');
-        }
+<script>
+    // Fungsi Buka/Tutup Sidebar
+    function toggleCart() {
+        document.getElementById('cartSidebar').classList.toggle('translate-x-full');
+    }
 
-        function closeCart() {
-            document.getElementById('cartSidebar').classList.add('translate-x-full');
-        }
-
-        // Cart Functions
-        async function addToCart(productId, quantity = 1, size = null) {
-            const response = await fetch('<?= base_url('cart/add') ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: quantity,
-                    size: size
-                })
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                updateCartCount(data.cart_count);
-                loadCartItems();
-                toggleCart();
-            }
-        }
-
-        async function loadCartItems() {
-            const response = await fetch('<?= base_url('cart/get') ?>');
-            const data = await response.json();
-
-            const cartItems = document.getElementById('cartItems');
-            const cartTotal = document.getElementById('cartTotal');
-
-            if (data.items && data.items.length > 0) {
-                cartItems.innerHTML = data.items.map(item => `
-                    <div class="flex gap-4 border-b border-black/10 pb-4">
-                        <div class="w-20 h-24 bg-gray-100">
-                            <img src="<?= base_url('uploads/') ?>${item.image}" class="w-full h-full object-cover grayscale">
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="text-[10px] uppercase tracking-widest">${item.name}</h4>
-                            <p class="text-[9px] text-black/60 mt-1">Size: ${item.size}</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <span class="text-[9px]">Qty: ${item.quantity}</span>
-                                <span class="text-[10px] font-medium">Rp ${item.price.toLocaleString()}</span>
-                            </div>
-                            <button onclick="removeFromCart(${item.id})" class="text-[8px] uppercase tracking-widest text-red-500 mt-2">Remove</button>
-                        </div>
-                    </div>
-                `).join('');
-                cartTotal.textContent = `Rp ${data.total.toLocaleString()}`;
-            } else {
-                cartItems.innerHTML = '<p class="text-center text-[10px] uppercase tracking-widest text-black/40 py-8">Your cart is empty</p>';
-                cartTotal.textContent = 'Rp 0';
-            }
-        }
-
-        async function removeFromCart(itemId) {
-            const response = await fetch('<?= base_url('cart/remove') ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    item_id: itemId
-                })
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                updateCartCount(data.cart_count);
-                loadCartItems();
-            }
-        }
-
-        function updateCartCount(count) {
-            document.getElementById('cartCount').textContent = count;
-        }
-
-        // Load cart on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCartItems();
+    // FUNGSI UTAMA: Tambah ke Cart (Dipanggil dari Detail Produk)
+    async function addToCart(productId, quantity, size) {
+        const response = await fetch('<?= base_url('cart/add') ?>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({ product_id: productId, quantity: quantity, size: size })
         });
-    </script>
+        const data = await response.json();
+        if (data.success) {
+            updateCartCount(data.cart_count);
+            loadCartItems();
+            toggleCart();
+        }
+    }
+
+    // FUNGSI UTAMA: Load Item ke Sidebar
+    async function loadCartItems() {
+        const response = await fetch('<?= base_url('cart/get') ?>');
+        const data = await response.json();
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+
+        if (data.items && data.items.length > 0) {
+            cartItems.innerHTML = data.items.map(item => `
+                <div class="flex gap-4 border-b border-black/10 pb-4">
+                    <div class="w-20 h-24 bg-gray-100">
+                        <img src="<?= base_url('uploads/') ?>${item.image}" class="w-full h-full object-cover grayscale">
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-[10px] uppercase tracking-widest font-bold">${item.name}</h4>
+                        <p class="text-[9px] text-black/60 mt-1 uppercase">Size: ${item.size}</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-[9px]">${item.quantity} x Rp ${item.price.toLocaleString()}</span>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}', '${item.size}')" 
+                                class="text-[8px] uppercase tracking-widest text-red-500 mt-2 cursor-pointer hover:underline">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            if(cartTotal) cartTotal.textContent = `Rp ${data.total.toLocaleString()}`;
+        } else {
+            cartItems.innerHTML = '<p class="text-center text-[10px] uppercase tracking-widest text-black/40 py-8">Your cart is empty</p>';
+            if(cartTotal) cartTotal.textContent = 'Rp 0';
+        }
+    }
+
+    // FUNGSI UTAMA: Hapus Item
+    async function removeFromCart(id, size) {
+        if (!confirm('Remove this item?')) return;
+        const response = await fetch('<?= base_url('cart/remove') ?>', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({ product_id: id, size: size })
+        });
+        const data = await response.json();
+        if (data.success) {
+            updateCartCount(data.cart_count);
+            loadCartItems();
+        } else {
+            alert("Gagal: " + (data.message || "Error"));
+        }
+    }
+
+    function updateCartCount(count) {
+        const elem = document.getElementById('cartCount');
+        if(elem) elem.textContent = count;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCartItems);
+</script>
 </body>
 
 </html>

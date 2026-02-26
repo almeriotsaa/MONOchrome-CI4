@@ -16,7 +16,9 @@
                 <span class="text-[9px] uppercase tracking-widest">Subtotal</span>
                 <span class="text-[11px] font-medium" id="cartTotal">Rp 0</span>
             </div>
-            <button class="w-full py-4 bg-black text-white text-[9px] uppercase tracking-[0.4em] hover:bg-gray-900 transition-colors">
+            <button 
+                onclick="window.location.href='<?= base_url('checkout') ?>'" 
+                class="w-full py-4 bg-black text-white text-[9px] uppercase tracking-[0.4em] hover:bg-gray-900 transition-colors">
                 Checkout
             </button>
             <button onclick="closeCart()" class="w-full py-4 mt-3 border border-black text-[9px] uppercase tracking-[0.4em] hover:bg-gray-100 transition-colors">

@@ -57,3 +57,12 @@ $routes->group('api', function($routes) {
     $routes->get('orders/(:num)', 'Api\OrderController::show/$1');
     $routes->post('orders', 'Api\OrderController::create');
 });
+
+// Route untuk menampilkan halaman checkout (Form Alamat & Pembayaran)
+$routes->get('checkout', 'Checkout::index');
+
+// Route untuk memproses data saat tombol "Bayar/Checkout" diklik
+$routes->post('checkout/process', 'Checkout::process');
+
+// Route untuk halaman sukses setelah data masuk ke 4 tabel
+$routes->get('checkout/success/(:num)', 'Checkout::success/$1');
