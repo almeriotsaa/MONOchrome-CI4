@@ -41,18 +41,18 @@ class OrderController extends BaseController
         $order = $this->orderModel
             ->select('orders.*, users.name, users.email')
             ->join('users', 'users.user_id = orders.user_id')
-            ->where('order_id', $id)
+            ->where('orders.order_id', $id)
             ->first();
 
-        $orderItems = (new OrderItemModel())
+        $items = (new \App\Models\OrderItemModel())
             ->select('order_items.*, products.name_product, products.price')
             ->join('products', 'products.product_id = order_items.product_id')
             ->where('order_items.order_id', $id)
             ->findAll();
 
-        return view('admin/orders/detail', [
+        return view('admin/detail', [
             'order' => $order,
-            'items' => $orderItems
+            'items' => $items
         ]);
     }
 
@@ -78,6 +78,6 @@ class OrderController extends BaseController
         $this->orderModel->delete($id);
 
         return redirect()->to('/admin/orders')
-                         ->with('success', 'Order deleted successfully');
+            ->with('success', 'Order deleted successfully');
     }
 }

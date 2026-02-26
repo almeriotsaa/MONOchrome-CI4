@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -26,10 +27,11 @@
         }
     </script>
 </head>
+
 <body class="bg-white text-black font-display overflow-x-hidden">
     <div class="flex min-h-screen">
         <?= $this->include('admin/sidebar') ?>
-        
+
         <main class="flex-1 flex flex-col min-w-0">
             <header class="h-20 border-b border-mono-border flex items-center justify-between px-8 bg-white/80 backdrop-blur-md sticky top-0 z-10">
                 <div class="flex flex-col">
@@ -51,7 +53,7 @@
                     </select>
                 </div>
             </header>
-            
+
             <div class="p-8 lg:p-12 max-w-7xl mx-auto w-full">
                 <section class="space-y-6">
                     <div class="overflow-x-auto">
@@ -68,27 +70,30 @@
                             </thead>
                             <tbody class="divide-y divide-mono-border">
                                 <?php foreach ($orders as $order): ?>
-                                <tr class="hover:bg-mono-gray/30 transition-colors group" data-status="<?= $order['status'] ?>">
-                                    <td class="py-8 text-sm font-light">#<?= $order['order_id'] ?></td>
-                                    <td class="py-8">
-                                        <div class="flex items-center gap-3">
-                                            <div class="size-8 bg-mono-gray flex items-center justify-center text-[10px] font-bold">
-                                                <?= substr($order['name'] ?? 'U', 0, 1) ?>
+                                    <tr class="hover:bg-mono-gray/30 transition-colors group" data-status="<?= $order['status'] ?>">
+                                        <td class="py-8 text-sm font-light">#<?= $order['order_id'] ?></td>
+                                        <td class="py-8">
+                                            <div class="flex items-center gap-3">
+                                                <div class="size-8 bg-mono-gray flex items-center justify-center text-[10px] font-bold">
+                                                    <?= substr($order['name'] ?? 'U', 0, 1) ?>
+                                                </div>
+                                                <span class="text-xs uppercase tracking-widest font-bold"><?= $order['name'] ?? 'User' ?></span>
                                             </div>
-                                            <span class="text-xs uppercase tracking-widest font-bold"><?= $order['name'] ?? 'User' ?></span>
-                                        </div>
-                                    </td>
-                                    <td class="py-8 text-[11px] text-gray-500 uppercase tracking-widest">
-                                        <?= date('M d, Y H:i:s', strtotime($order['created_at'])) ?>
-                                    </td>
-                                    <td class="py-8 text-sm font-medium">Rp <?= number_format($order['total'] ?? 0, 0, ',', '.') ?></td>
-                                    <td class="py-8">
-                                        <span class="text-xs uppercase tracking-widest font-bold"><?= $order['status'] ?></span>
-                                    </td>
-                                    <td class="py-8 text-right">
-                                        <a href="<?= base_url('admin/orders/detail/' . $order['order_id']) ?>" class="material-symbols-outlined text-lg hover:text-gray-400 transition-colors">visibility</a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="py-8 text-[11px] text-gray-500 uppercase tracking-widest">
+                                            <?= date('M d, Y H:i:s', strtotime($order['created_at'])) ?>
+                                        </td>
+                                        <td class="py-8 text-sm font-medium">Rp <?= number_format($order['total'] ?? 0, 0, ',', '.') ?></td>
+                                        <td class="py-8">
+                                            <span class="text-xs uppercase tracking-widest font-bold"><?= $order['status'] ?></span>
+                                        </td>
+                                        <td>
+                                        <button onclick="openOrderModal(<?= $order['order_id'] ?>)"
+                                            class="hover:opacity-60 transition">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -98,36 +103,74 @@
         </main>
     </div>
 
-    <script>
-    function filterOrders() {
-        const filter = document.getElementById('statusFilter').value;
-        const rows = document.querySelectorAll('#ordersTable tbody tr');
-        
-        rows.forEach(row => {
-            if (!filter || row.dataset.status === filter) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
+    <div id="orderModal"
+        class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
 
-    async function updateStatus(orderId, status) {
-        const response = await fetch(`<?= base_url('admin/orders/update-status') ?>/${orderId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ status: status })
-        });
-        
-        if (response.ok) {
-            // Update row data-status
-            const row = event.target.closest('tr');
-            row.dataset.status = status;
+        <div class="bg-white w-[900px] max-h-[90vh] overflow-y-auto p-8 relative">
+
+            <!-- Close -->
+            <button onclick="closeOrderModal()"
+                class="absolute top-4 right-4">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <div id="orderDetailContent">
+                <!-- Detail akan di-load di sini -->
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function filterOrders() {
+            const filter = document.getElementById('statusFilter').value;
+            const rows = document.querySelectorAll('#ordersTable tbody tr');
+
+            rows.forEach(row => {
+                if (!filter || row.dataset.status === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         }
-    }
+
+        async function updateStatus(orderId, status) {
+            const response = await fetch(`<?= base_url('admin/orders/update-status') ?>/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            });
+
+            if (response.ok) {
+                // Update row data-status
+                const row = event.target.closest('tr');
+                row.dataset.status = status;
+            }
+        }
+    </script>
+    <script>
+        function openOrderModal(orderId) {
+            document.getElementById('orderModal').classList.remove('hidden');
+            document.getElementById('orderModal').classList.add('flex');
+
+            fetch("<?= base_url('admin/orders/detail') ?>/" + orderId)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('orderDetailContent').innerHTML = data;
+                });
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+            document.getElementById('orderModal').classList.remove('flex');
+        }
     </script>
 </body>
+
 </html>
