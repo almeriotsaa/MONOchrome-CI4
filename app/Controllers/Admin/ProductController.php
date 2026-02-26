@@ -66,6 +66,14 @@ class ProductController extends BaseController
 
     public function update($id)
     {
+        $file = $this->request->getFile('image');
+        $imageName = '';
+
+        if ($file && $file->isValid()) {
+            $imageName = $file->getRandomName();
+            $file->move('uploads/', $imageName);
+        }
+
         $this->productModel->update($id, [
             'category_id'  => $this->request->getPost('category_id'),
             'name_product' => $this->request->getPost('name_product'),
@@ -73,6 +81,7 @@ class ProductController extends BaseController
             'price'        => $this->request->getPost('price'),
             'stock'        => $this->request->getPost('stock'),
             'size'         => $this->request->getPost('size'),
+            'image'        => $imageName,
         ]);
 
         return redirect()->to('/admin/products');
