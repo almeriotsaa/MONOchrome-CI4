@@ -73,17 +73,17 @@
                                     <td class="py-8">
                                         <div class="flex items-center gap-3">
                                             <div class="size-8 bg-mono-gray flex items-center justify-center text-[10px] font-bold">
-                                                <?= substr($order['customer_name'] ?? 'U', 0, 2) ?>
+                                                <?= substr($order['name'] ?? 'U', 0, 1) ?>
                                             </div>
-                                            <span class="text-xs uppercase tracking-widest font-bold"><?= $order['customer_name'] ?? 'User' ?></span>
+                                            <span class="text-xs uppercase tracking-widest font-bold"><?= $order['name'] ?? 'User' ?></span>
                                         </div>
                                     </td>
                                     <td class="py-8 text-[11px] text-gray-500 uppercase tracking-widest">
-                                        <?= date('M d, Y', strtotime($order['order_date'])) ?>
+                                        <?= date('M d, Y H:i:s', strtotime($order['created_at'])) ?>
                                     </td>
                                     <td class="py-8 text-sm font-medium">Rp <?= number_format($order['total'] ?? 0, 0, ',', '.') ?></td>
                                     <td class="py-8">
-                                        
+                                        <span class="text-xs uppercase tracking-widest font-bold"><?= $order['status'] ?></span>
                                     </td>
                                     <td class="py-8 text-right">
                                         <a href="<?= base_url('admin/orders/detail/' . $order['order_id']) ?>" class="material-symbols-outlined text-lg hover:text-gray-400 transition-colors">visibility</a>
