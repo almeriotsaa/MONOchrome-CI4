@@ -22,7 +22,7 @@
                     },
                     fontFamily: {
                         "sans": ["Inter", "sans-serif"],
-                        "serif": ["Bodoni Moda", "serif"]
+                        "serif": ["Bodoni Moda", "serif"] 
                     },
                 },
             },

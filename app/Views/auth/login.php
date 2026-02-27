@@ -56,7 +56,7 @@
                         Email Address
                     </label>
                     <input class="w-full bg-transparent border-t-0 border-x-0 border-b border-zinc-200 p-0 py-3 text-sm font-light focus:ring-0 focus:border-black" 
-                           id="email" name="email" placeholder="admin@mono.com" type="email" required 
+                           id="email" name="email" placeholder="Enter Your Email" type="email" required 
                            value="<?= old('email') ?>" />
                 </div>
                 
@@ -70,7 +70,7 @@
                         </a>
                     </div>
                     <input class="w-full bg-transparent border-t-0 border-x-0 border-b border-zinc-200 p-0 py-3 text-sm font-light focus:ring-0 focus:border-black" 
-                           id="password" name="password" placeholder="••••••••" type="password" required />
+                           id="password" name="password" placeholder="Enter Your Password" type="password" required />
                 </div>
                 
                 <div class="mt-4">

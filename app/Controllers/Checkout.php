@@ -114,8 +114,8 @@ public function index()
         }
     }
 
-public function success($orderId)
-{
+    public function success($orderId)
+    {
     $orderModel = new OrderModel();
     
     // Ambil data lengkap dengan join ke tabel payments dan details
@@ -130,6 +130,37 @@ public function success($orderId)
     }
 
     return view('checkout/success', $data);
+}
+
+public function confirmPayment($orderId)
+{
+    $orderModel = new \App\Models\OrderModel();
+    $orderItemModel = new \App\Models\OrderItemModel();
+
+    // Ambil data Order, Payment, dan Payment Details
+    $order = $orderModel->select('orders.*, payments.method, payment_details.provider, payment_details.account_number')
+        ->join('payments', 'payments.order_id = orders.order_id')
+        ->join('payment_details', 'payment_details.payment_id = payments.payment_id')
+        ->where('orders.order_id', $orderId)
+        ->first();
+
+    if (!$order) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+
+    // Ambil data Produk (menyesuaikan dengan kolom name_product di migration)
+    $items = $orderItemModel->select('order_items.*, products.name_product AS name, products.price, products.image') 
+        ->join('products', 'products.product_id = order_items.product_id')
+        ->where('order_items.order_id', $orderId)
+        ->findAll();
+
+    $data = [
+        'order'       => $order,
+        'order_items' => $items // Variabel ini yang akan di-loop di view
+    ];
+
+    // Diarahkan ke payment_success sesuai request kamu
+    return view('checkout/payment_success', $data);
 }
 
     // Fungsi sederhana untuk simulasi nomor VA/Rekening

@@ -66,7 +66,7 @@
                         Password
                     </label>
                     <input class="w-full bg-transparent border-t-0 border-x-0 border-b border-zinc-200 p-0 py-3 text-sm font-light focus:ring-0 focus:border-black" 
-                           id="password" name="password" placeholder="••••••••" type="password" required />
+                           id="password" name="password" placeholder="Enter Your Password" type="password" required />
                 </div>
                 
                 <div class="flex flex-col gap-2">
@@ -74,7 +74,7 @@
                         Confirm Password
                     </label>
                     <input class="w-full bg-transparent border-t-0 border-x-0 border-b border-zinc-200 p-0 py-3 text-sm font-light focus:ring-0 focus:border-black" 
-                           id="confirm_password" name="confirm_password" placeholder="••••••••" type="password" required />
+                           id="confirm_password" name="confirm_password" placeholder="Enter Your Password" type="password" required />
                 </div>
                 
                 <div class="mt-4">

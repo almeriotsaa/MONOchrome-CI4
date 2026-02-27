@@ -6,7 +6,9 @@
     <div class="max-w-[1800px] mx-auto">
         <div class="flex justify-between items-center mb-16">
             <div class="flex items-center gap-4">
-                <button onclick="toggleFilters()" class="filter-link">Filter</button>
+                <button onclick="toggleFilters()" class="px-8 py-3 bg-black text-white text-[10px] uppercase tracking-[0.2em] hover:bg-zinc-800 transition-colors duration-300">
+                    Filter
+                </button>
                 
                 <!-- Filter Dropdown -->
                 <div id="filterDropdown" class="absolute top-32 left-12 bg-white border border-black p-6 hidden z-40">

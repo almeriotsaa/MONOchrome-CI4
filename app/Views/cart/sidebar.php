@@ -17,7 +17,7 @@
                 <span class="text-[11px] font-medium" id="cartTotal">Rp 0</span>
             </div>
             <button 
-                onclick="window.location.href='<?= base_url('checkout') ?>'" 
+                onclick="confirmCheckout()" 
                 class="w-full py-4 bg-black text-white text-[9px] uppercase tracking-[0.4em] hover:bg-gray-900 transition-colors">
                 Checkout
             </button>
@@ -32,6 +32,16 @@
 <div id="cartOverlay" onclick="closeCart()" class="fixed inset-0 bg-black/20 z-[55] hidden"></div>
 
 <script>
+
+    function confirmCheckout() {
+        
+        const isConfirmed = confirm("Proceed to Checkout?");
+        
+        if (isConfirmed) {
+            window.location.href = '<?= base_url('checkout') ?>';
+        }
+    }
+
     function closeCart() {
         document.getElementById('cartSidebar').classList.add('translate-x-full');
         document.getElementById('cartOverlay').classList.add('hidden');

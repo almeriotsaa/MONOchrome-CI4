@@ -66,3 +66,5 @@ $routes->post('checkout/process', 'Checkout::process');
 
 // Route untuk halaman sukses setelah data masuk ke 4 tabel
 $routes->get('checkout/success/(:num)', 'Checkout::success/$1');
+
+$routes->get('checkout/confirm-payment/(:num)', 'Checkout::confirmPayment/$1');

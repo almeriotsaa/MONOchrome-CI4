@@ -9,7 +9,7 @@
     <div class="max-w-4xl mx-auto p-8 lg:p-20">
         <h1 class="text-[12px] uppercase tracking-[0.5em] font-bold mb-12 border-b border-black pb-4">Shipping & Payment</h1>
 
-        <form action="<?= base_url('checkout/process') ?>" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <form action="<?= base_url('checkout/process') ?>" method="POST" onsubmit="return confirmPurchase()" class="grid grid-cols-1 md:grid-cols-2 gap-16">
             <?= csrf_field() ?>
             
             <div class="space-y-8">
@@ -66,5 +66,28 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // 1. SCRIPT ANTI-BACK (VERSI STABIL)
+        (function () {
+            // Tambahkan state baru ke history segera setelah halaman dimuat
+            history.pushState(null, null, document.URL);
+
+            // Dengarkan event popstate (ketika tombol back ditekan)
+            window.addEventListener('popstate', function () {
+                // Paksa tetap di halaman ini
+                history.pushState(null, null, document.URL);
+                
+                // Alert hanya muncul sekali saat ditekan
+                alert("Please use 'Back to Shopping' button to leave. Back button is disabled to protect your transaction.");
+            });
+        })();
+
+        // 2. FUNGSI KONFIRMASI SUBMIT
+        function confirmPurchase() {
+            return confirm("Are you sure you want to complete this purchase? Please double-check your shipping address.");
+        }
+    </script>
+
 </body>
 </html>
