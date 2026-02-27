@@ -47,7 +47,7 @@
     </div>
 
     <script>
-// --- SCRIPT PENGUNCI HALAMAN (STUCK MODE) ---
+
     (function (global) {
         if (typeof (global) === "undefined") {
             throw new Error("window is undefined");
@@ -57,13 +57,13 @@
         var noBackPlease = function () {
             global.location.href += "#";
 
-            // Membuat delay kecil untuk mendorong history state
+
             global.setTimeout(function () {
                 global.location.href += "!";
             }, 50);
         };
 
-        // Menjebak perubahan hash URL
+        
         global.onhashchange = function () {
             if (global.location.hash !== _hash) {
                 global.location.hash = _hash;
@@ -73,16 +73,16 @@
         global.onload = function () {
             noBackPlease();
 
-            // Mencegah back menggunakan PushState
+            
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', function () {
-                // Saat tombol back ditekan, paksa balik ke halaman ini lagi
+                
                 history.pushState(null, null, document.URL);
             });
         };
     })(window);
 
-        // --- 2. SCRIPT COPY (Lama) ---
+        
         function copyToClipboard() {
             const textToCopy = "<?= $order['account_number'] ?>";
             navigator.clipboard.writeText(textToCopy).then(() => {

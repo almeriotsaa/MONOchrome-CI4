@@ -37,7 +37,7 @@
 
     <main class="flex-1 flex flex-col min-w-0">
 
-        <!-- HEADER -->
+        
         <header class="h-28 border-b border-mono-border flex items-center justify-between px-12 bg-white sticky top-0 z-10">
             <div class="flex flex-col">
                 <h1 class="text-3xl font-bold tracking-[0.1em] uppercase">
@@ -51,7 +51,7 @@
             </div>
         </header>
 
-        <!-- CONTENT -->
+       
         <div class="p-12 max-w-5xl mx-auto w-full">
 
             <form action="<?= base_url('admin/products/update/' . $product['product_id']) ?>"
@@ -61,7 +61,7 @@
 
                 <?= csrf_field() ?>
 
-                <!-- PRODUCT INFORMATION -->
+               
                 <section>
                     <h2 class="text-[11px] font-bold uppercase tracking-widest border-b border-black pb-4 mb-8">
                         Product Information
@@ -69,7 +69,7 @@
 
                     <div class="grid grid-cols-2 gap-x-12 gap-y-8">
 
-                        <!-- Name -->
+                        
                         <div class="flex flex-col gap-2 col-span-2">
                             <label class="text-[9px] font-bold uppercase tracking-widest text-mono-soft">
                                 Product Name
@@ -81,7 +81,7 @@
                                    required>
                         </div>
 
-                        <!-- Category -->
+                       
                         <div class="flex flex-col gap-2">
                             <label class="text-[9px] font-bold uppercase tracking-widest text-mono-soft">
                                 Category
@@ -100,7 +100,7 @@
                             </select>
                         </div>
 
-                        <!-- Size -->
+                        
                         <div class="flex flex-col gap-2">
                             <label class="text-[9px] font-bold uppercase tracking-widest text-mono-soft">
                                 Size
@@ -112,7 +112,7 @@
                                    required>
                         </div>
 
-                        <!-- Description -->
+                        
                         <div class="flex flex-col gap-2 col-span-2">
                             <label class="text-[9px] font-bold uppercase tracking-widest text-mono-soft">
                                 Description
@@ -125,7 +125,7 @@
                     </div>
                 </section>
 
-                <!-- PRICING -->
+                
                 <section>
                     <h2 class="text-[11px] font-bold uppercase tracking-widest border-b border-black pb-4 mb-8">
                         Inventory & Pricing
@@ -156,7 +156,7 @@
                     </div>
                 </section>
 
-                <!-- IMAGE -->
+                
                 <section>
                     <h2 class="text-[11px] font-bold uppercase tracking-widest border-b border-black pb-4 mb-8">
                         Image
@@ -186,7 +186,7 @@
                     </div>
                 </section>
 
-                <!-- ACTION BUTTON -->
+                
                 <div class="flex items-center justify-end gap-6 pt-8 border-t border-mono-border">
 
                     <a href="<?= base_url('admin/products') ?>"

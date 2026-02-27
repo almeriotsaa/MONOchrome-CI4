@@ -14,9 +14,7 @@ class CustomerController extends BaseController
         $this->userModel = new UserModel();
     }
 
-    // =========================
-    // LIST ALL CUSTOMERS
-    // =========================
+
     public function index()
     {
         $customers = $this->userModel
@@ -29,9 +27,7 @@ class CustomerController extends BaseController
         ]);
     }
 
-    // =========================
-    // DETAIL CUSTOMER
-    // =========================
+    
     public function detail($id)
     {
         $customer = $this->userModel
@@ -48,9 +44,7 @@ class CustomerController extends BaseController
         ]);
     }
 
-    // =========================
-    // DELETE CUSTOMER
-    // =========================
+
     public function delete($id)
     {
         $customer = $this->userModel->find($id);

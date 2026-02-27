@@ -75,7 +75,7 @@ class Cart extends BaseController
     public function get()
     {
         $cart = session()->get('cart') ?? [];
-        // Pastikan helper cart_total() ada di app/Helpers/cart_helper.php
+        
         $total = cart_total();
         
         return $this->response->setJSON([
@@ -132,7 +132,7 @@ class Cart extends BaseController
                 $newCart = [];
 
                 foreach ($cart as $item) {
-                    // Logika: Masukkan ke array baru jika BUKAN barang yang mau dihapus
+                    
                     if (!($item['id'] == $productId && $item['size'] == $size)) {
                         $newCart[] = $item;
                     }

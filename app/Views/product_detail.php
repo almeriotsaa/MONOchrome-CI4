@@ -4,7 +4,7 @@
 
 <main class="max-w-[1800px] mx-auto px-8 pt-32 pb-20">
     <div class="flex flex-col lg:flex-row gap-0">
-        <!-- Kolom Gambar -->
+        
         <div class="lg:w-[70%] space-y-12 pr-16">
             <div class="aspect-[4/5] overflow-hidden bg-gray-50 border-thin">
                 <img 
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <!-- Kolom Detail Produk -->
+        
         <div class="lg:w-[30%]">
             <div class="sticky top-32 space-y-16">
                 <header class="space-y-6">
@@ -27,7 +27,7 @@
                 </header>
 
                 <div class="space-y-12">
-                    <!-- Size Selector -->
+                    
                     <div class="space-y-6">
                         <div class="flex justify-between items-baseline border-b border-black/10 pb-2">
                             <span class="text-[10px] uppercase tracking-[0.3em] font-medium">Select Size</span>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <!-- Quantity -->
+                    
                     <div class="flex items-center gap-4 border border-black p-2">
                         <button onclick="decreaseQty()" class="px-3 py-1 text-lg">-</button>
                         <span id="quantity" class="flex-1 text-center text-[10px] uppercase tracking-widest">1</span>
@@ -57,7 +57,7 @@
                         Add to Bag
                     </button>
 
-                    <!-- Description & Details -->
+                    
                     <div class="space-y-6 pt-8 border-t border-black/10">
                         <p class="text-[14px] leading-relaxed text-black/90 font-serif italic">
                             <?= esc($product['description']) ?>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <!-- Latest Products -->
+    
     <section class="mt-64">
         <h2 class="text-2xl font-serif italic text-center mb-24 font-light">Latest Products</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
@@ -108,7 +108,7 @@ function selectSize(size) {
         btn.classList.remove('font-bold', 'border-b', 'border-black');
         btn.classList.add('opacity-40');
     });
-    // Pastikan tombol yang diklik langsung berubah
+    
     const btn = event.currentTarget; 
     btn.classList.add('font-bold', 'border-b', 'border-black');
     btn.classList.remove('opacity-40');
@@ -131,7 +131,7 @@ function handleAddToCart(productId) {
         return;
     }
     const quantity = parseInt(document.getElementById('quantity').textContent);
-    // Panggil fungsi yang ada di header.php
+    
     addToCart(productId, quantity, selectedSize);
 }
 </script>

@@ -68,22 +68,22 @@
     </div>
 
     <script>
-        // 1. SCRIPT ANTI-BACK (VERSI STABIL)
+        
         (function () {
-            // Tambahkan state baru ke history segera setelah halaman dimuat
+           
             history.pushState(null, null, document.URL);
 
-            // Dengarkan event popstate (ketika tombol back ditekan)
+            
             window.addEventListener('popstate', function () {
-                // Paksa tetap di halaman ini
+                
                 history.pushState(null, null, document.URL);
                 
-                // Alert hanya muncul sekali saat ditekan
+                
                 alert("Please use 'Back to Shopping' button to leave. Back button is disabled to protect your transaction.");
             });
         })();
 
-        // 2. FUNGSI KONFIRMASI SUBMIT
+        
         function confirmPurchase() {
             return confirm("Are you sure you want to complete this purchase? Please double-check your shipping address.");
         }

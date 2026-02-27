@@ -108,14 +108,14 @@
 
         <div class="bg-white w-[900px] max-h-[90vh] overflow-y-auto p-8 relative">
 
-            <!-- Close -->
+            
             <button onclick="closeOrderModal()"
                 class="absolute top-4 right-4">
                 <span class="material-symbols-outlined">close</span>
             </button>
 
             <div id="orderDetailContent">
-                <!-- Detail akan di-load di sini -->
+                
             </div>
 
         </div>
@@ -148,7 +148,7 @@
             });
 
             if (response.ok) {
-                // Update row data-status
+                
                 const row = event.target.closest('tr');
                 row.dataset.status = status;
             }

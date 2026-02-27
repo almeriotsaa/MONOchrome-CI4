@@ -10,7 +10,7 @@
                     Filter
                 </button>
                 
-                <!-- Filter Dropdown -->
+          
                 <div id="filterDropdown" class="absolute top-32 left-12 bg-white border border-black p-6 hidden z-40">
                     <form method="get" action="<?= base_url('collection') ?>" class="space-y-4">
                         <div>

@@ -19,7 +19,7 @@
 </head>
 <body class="bg-white text-black">
     <div class="relative flex min-h-screen w-full flex-col items-center justify-center p-6">
-        <!-- Flash Messages -->
+       
         <?php if (session()->getFlashdata('error')): ?>
             <div class="mb-4 w-full max-w-[360px] p-4 bg-red-50 border border-red-200">
                 <p class="text-[10px] text-red-600 uppercase tracking-widest text-center">

@@ -6,8 +6,7 @@ use App\Models\OrderModel;
 use App\Models\OrderItemModel;
 use App\Models\PaymentModel;
 use App\Models\PaymentDetailModel;
-// Jika Anda ingin mengurangi stok, jangan lupa panggil ProductModel
-// use App\Models\ProductModel; 
+
 
 class Checkout extends BaseController
 {
@@ -32,28 +31,27 @@ public function index()
 
     public function process()
     {
-        // 1. Ambil data keranjang dari Session
-        // Asumsi struktur session cart: [['product_id' => 1, 'qty' => 2, 'size' => 'M', 'price' => 150000], ...]
+        
         $cart = session()->get('cart');
-        $userId = session()->get('user_id'); // Pastikan user sudah login
+        $userId = session()->get('user_id'); 
 
         if (!$cart || empty($cart)) {
             return redirect()->to('/cart')->with('error', 'Keranjang belanja Anda kosong.');
         }
 
-        // 2. Ambil input dari Form Checkout
+       
         $address  = $this->request->getPost('address');
         $shipping = $this->request->getPost('shipping_method');
         $total    = $this->request->getPost('total_amount');
-        $bankName = $this->request->getPost('bank_name'); // Misal: BCA, Mandiri, dll
-        $method   = "Bank Transfer"; // Atau sesuaikan dengan pilihan user
+        $bankName = $this->request->getPost('bank_name'); 
+        $method   = "Bank Transfer"; 
 
-        // 3. Mulai Proses Database
+        
         $db = \Config\Database::connect();
-        $db->transStart(); // --- START TRANSACTION ---
+        $db->transStart(); 
 
         try {
-            // TABLE 1: Simpan ke 'orders'
+            
             $orderModel = new OrderModel();
             $orderId = $orderModel->insert([
                 'user_id'    => $userId,
@@ -64,7 +62,7 @@ public function index()
                 'status'     => 'pending'
             ]);
 
-            // TABLE 2: Simpan ke 'order_items' (Looping)
+            
             $orderItemModel = new OrderItemModel();
             foreach ($cart as $item) {
             $orderItemModel->insert([
@@ -74,10 +72,10 @@ public function index()
                 'size'       => $item['size']
             ]);
                 
-                // OPTIONAL: Kurangi stok produk di sini jika diperlukan
+                
             }
 
-            // TABLE 3: Simpan ke 'payments'
+            
             $paymentModel = new PaymentModel();
             $paymentId = $paymentModel->insert([
                 'order_id'     => $orderId,
@@ -87,23 +85,23 @@ public function index()
                 'status'       => 'unpaid'
             ]);
 
-            // TABLE 4: Simpan ke 'payment_details'
+            
             $paymentDetailModel = new PaymentDetailModel();
             $paymentDetailModel->insert([
                 'payment_id'     => $paymentId,
                 'provider'       => $bankName,
-                'account_number' => $this->generateVA($bankName), // Fungsi dummy VA
+                'account_number' => $this->generateVA($bankName), 
                 'status_message' => 'Waiting for customer payment'
             ]);
 
-            $db->transComplete(); // --- FINISH TRANSACTION ---
+            $db->transComplete(); 
 
             if ($db->transStatus() === false) {
-                // Jika transaksi gagal
+                
                 return redirect()->back()->with('error', 'Gagal memproses pesanan. Silakan coba lagi.');
             }
 
-            // 4. Hapus Keranjang setelah sukses
+            
             session()->remove('cart');
 
             return redirect()->to("/checkout/success/$orderId")->with('success', 'Pesanan berhasil dibuat!');
@@ -118,7 +116,7 @@ public function index()
     {
     $orderModel = new OrderModel();
     
-    // Ambil data lengkap dengan join ke tabel payments dan details
+   
     $data['order'] = $orderModel->select('orders.*, payments.method, payment_details.provider, payment_details.account_number')
         ->join('payments', 'payments.order_id = orders.order_id')
         ->join('payment_details', 'payment_details.payment_id = payments.payment_id')
@@ -137,7 +135,7 @@ public function confirmPayment($orderId)
     $orderModel = new \App\Models\OrderModel();
     $orderItemModel = new \App\Models\OrderItemModel();
 
-    // Ambil data Order, Payment, dan Payment Details
+
     $order = $orderModel->select('orders.*, payments.method, payment_details.provider, payment_details.account_number')
         ->join('payments', 'payments.order_id = orders.order_id')
         ->join('payment_details', 'payment_details.payment_id = payments.payment_id')
@@ -148,7 +146,7 @@ public function confirmPayment($orderId)
         throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
-    // Ambil data Produk (menyesuaikan dengan kolom name_product di migration)
+    
     $items = $orderItemModel->select('order_items.*, products.name_product AS name, products.price, products.image') 
         ->join('products', 'products.product_id = order_items.product_id')
         ->where('order_items.order_id', $orderId)
@@ -156,14 +154,14 @@ public function confirmPayment($orderId)
 
     $data = [
         'order'       => $order,
-        'order_items' => $items // Variabel ini yang akan di-loop di view
+        'order_items' => $items 
     ];
 
-    // Diarahkan ke payment_success sesuai request kamu
+    
     return view('checkout/payment_success', $data);
 }
 
-    // Fungsi sederhana untuk simulasi nomor VA/Rekening
+    
     private function generateVA($bank)
     {
         $prefix = ($bank == 'BCA') ? '8801' : '9902';

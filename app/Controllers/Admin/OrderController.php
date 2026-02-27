@@ -17,9 +17,7 @@ class OrderController extends BaseController
         $this->orderModel = new OrderModel();
     }
 
-    // =========================
-    // LIST ALL ORDERS
-    // =========================
+
     public function index()
     {
         $orders = $this->orderModel
@@ -33,9 +31,7 @@ class OrderController extends BaseController
         ]);
     }
 
-    // =========================
-    // DETAIL ORDER
-    // =========================
+
     public function detail($id)
     {
         $order = $this->orderModel
@@ -56,9 +52,7 @@ class OrderController extends BaseController
         ]);
     }
 
-    // =========================
-    // UPDATE STATUS
-    // =========================
+
     public function updateStatus($id)
     {
         $status = $this->request->getPost('status');
@@ -70,9 +64,7 @@ class OrderController extends BaseController
         return redirect()->back()->with('success', 'Order status updated');
     }
 
-    // =========================
-    // DELETE ORDER
-    // =========================
+
     public function delete($id)
     {
         $this->orderModel->delete($id);

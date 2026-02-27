@@ -112,12 +112,12 @@
     </footer>
 
 <script>
-    // Fungsi Buka/Tutup Sidebar
+
     function toggleCart() {
         document.getElementById('cartSidebar').classList.toggle('translate-x-full');
     }
 
-    // FUNGSI UTAMA: Tambah ke Cart (Dipanggil dari Detail Produk)
+
     async function addToCart(productId, quantity, size) {
         const response = await fetch('<?= base_url('cart/add') ?>', {
             method: 'POST',
@@ -132,7 +132,7 @@
         }
     }
 
-    // FUNGSI UTAMA: Load Item ke Sidebar
+  
     async function loadCartItems() {
         const response = await fetch('<?= base_url('cart/get') ?>');
         const data = await response.json();
@@ -165,7 +165,7 @@
         }
     }
 
-    // FUNGSI UTAMA: Hapus Item
+
     async function removeFromCart(id, size) {
         if (!confirm('Remove this item?')) return;
         const response = await fetch('<?= base_url('cart/remove') ?>', {

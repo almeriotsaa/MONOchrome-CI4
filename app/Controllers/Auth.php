@@ -28,7 +28,7 @@ class Auth extends BaseController
             if ($verify_pass) {
 
                 $ses_data = [
-                    'user_id'  => $data['user_id'], // SESUAI DATABASE
+                    'user_id'  => $data['user_id'], 
                     'name'     => $data['name'],
                     'email'    => $data['email'],
                     'role'     => $data['role'],

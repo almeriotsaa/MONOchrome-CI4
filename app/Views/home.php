@@ -2,7 +2,7 @@
 <?= $this->section('title') ?>Home<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<!-- Hero Section -->
+
 <section class="h-screen w-full pt-16 px-12 pb-12">
     <div class="relative w-full h-full border-thin overflow-hidden group">
         <img alt="Editorial monochrome" class="w-full h-full object-cover grayscale brightness-90 transition-transform duration-[2000ms] group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPdtQ4PiWMKeD8ewAg5ITYR43qe0aQmZYcEBUi5STh1LELWIG6GCrDPxF45dmKoG1ZE9_Zfaj42mCI8EOlzphJyOK33Tjyf4A6TOdFyfCIJmQdgLxBnU-A63P3ba5aoElP17NlS0OBuePWKloqislccYKAgHUbhz2NinFnkAUaJrciZPNQnpGbduHB2E16jC_q_pkIQklcs7FOsbk4rhriIYPGFf0krg0SoX1hw1sFZeEqroQ-PYMS6eHKB5sTWaMRmPNfYQQvwoE" />
@@ -17,7 +17,7 @@
     </div>
 </section>
 
-<!-- Tagline Section -->
+
 <section class="py-64 bg-white">
     <div class="max-w-[1200px] mx-auto px-12 text-center">
         <h1 class="font-serif-luxury text-5xl md:text-6xl italic leading-tight mb-16">The reduction to essentials.</h1>
@@ -27,7 +27,7 @@
     </div>
 </section>
 
-<!-- New Arrivals Section -->
+
 <section class="px-12 pb-64">
     <div class="max-w-[1800px] mx-auto">
         <div class="flex justify-between items-baseline mb-24 border-thin-b pb-4">
@@ -56,7 +56,7 @@
     </div>
 </section>
 
-<!-- Editorial Section -->
+
 <section class="px-12 pb-64">
     <div class="max-w-[1800px] mx-auto grid grid-cols-12 items-center gap-12">
         <div class="col-span-12 lg:col-span-7">

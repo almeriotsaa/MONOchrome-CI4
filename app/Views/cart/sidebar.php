@@ -1,4 +1,4 @@
-<!-- Cart Sidebar -->
+
 <div id="cartSidebar" class="fixed top-0 right-0 w-full max-w-md h-full bg-white z-[60] border-l border-black transform translate-x-full transition-transform duration-300 cart-sidebar">
     <div class="flex flex-col h-full">
         <div class="p-8 border-b border-black flex justify-between items-center">
@@ -7,7 +7,7 @@
         </div>
         
         <div class="flex-1 overflow-y-auto p-8 space-y-6" id="cartItems">
-            <!-- Cart items will be loaded here dynamically -->
+            
             <p class="text-center text-[10px] uppercase tracking-widest text-black/40 py-8">Loading cart...</p>
         </div>
         
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<!-- Overlay -->
+
 <div id="cartOverlay" onclick="closeCart()" class="fixed inset-0 bg-black/20 z-[55] hidden"></div>
 
 <script>
