@@ -85,13 +85,45 @@
                                         </td>
                                         <td class="py-8 text-sm font-medium">Rp <?= number_format($order['total'] ?? 0, 0, ',', '.') ?></td>
                                         <td class="py-8">
-                                            <span class="text-xs uppercase tracking-widest font-bold"><?= $order['status'] ?></span>
+                                            <div class="flex items-center gap-4">
+
+                                                <!-- STATUS BADGE -->
+                                                <span class="order-status px-3 py-1 text-xs font-semibold uppercase tracking-widest rounded-full 
+            <?= $order['status'] == 'completed' ? 'bg-green-100 text-green-600' : ($order['status'] == 'pending' ? 'bg-yellow-100 text-yellow-600' :
+                                        'bg-gray-200 text-gray-600') ?>">
+
+                                                    <?= $order['status'] ?>
+                                                </span>
+
+                                                <!-- BUTTON -->
+                                                <?php if ($order['status'] != 'completed'): ?>
+                                                    <button
+                                                        onclick="updateStatus(<?= $order['order_id'] ?>, 'completed', this)"
+                                                        class="px-4 py-1.5 text-xs font-medium bg-black text-white rounded-full hover:bg-gray-800 transition duration-200">
+                                                        Complete
+                                                    </button>
+                                                <?php endif; ?>
+
+                                            </div>
                                         </td>
-                                        <td>
-                                        <button onclick="openOrderModal(<?= $order['order_id'] ?>)"
-                                            class="hover:opacity-60 transition">
-                                            <span class="material-symbols-outlined">visibility</span>
-                                        </button>
+                                        <td class="py-6">
+                                            <div class="flex items-center gap-4">
+
+                                                <!-- VIEW -->
+                                                <button
+                                                    onclick="openOrderModal(<?= $order['order_id'] ?>)"
+                                                    class="text-gray-600 hover:text-black transition">
+                                                    <span class="material-symbols-outlined text-xl">visibility</span>
+                                                </button>
+
+                                                <!-- DELETE -->
+                                                <button
+                                                    onclick="confirmDelete(<?= $order['order_id'] ?>)"
+                                                    class="text-red-500 hover:text-red-700 transition">
+                                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                                </button>
+
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -108,14 +140,14 @@
 
         <div class="bg-white w-[900px] max-h-[90vh] overflow-y-auto p-8 relative">
 
-            
+
             <button onclick="closeOrderModal()"
                 class="absolute top-4 right-4">
                 <span class="material-symbols-outlined">close</span>
             </button>
 
             <div id="orderDetailContent">
-                
+
             </div>
 
         </div>
@@ -135,7 +167,7 @@
             });
         }
 
-        async function updateStatus(orderId, status) {
+        async function updateStatus(orderId, status, button) {
             const response = await fetch(`<?= base_url('admin/orders/update-status') ?>/${orderId}`, {
                 method: 'POST',
                 headers: {
@@ -147,10 +179,16 @@
                 })
             });
 
-            if (response.ok) {
-                
-                const row = event.target.closest('tr');
+            const result = await response.json();
+
+            if (result.status) {
+                const row = button.closest('tr');
+                const statusElement = row.querySelector('.order-status');
+
+                statusElement.textContent = status;
                 row.dataset.status = status;
+            } else {
+                alert(result.message);
             }
         }
     </script>

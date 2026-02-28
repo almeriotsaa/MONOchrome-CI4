@@ -28,7 +28,18 @@ class DashboardController extends BaseController
     {
         $data['totalOrders'] = $this->orderModel->countAll();
         $data['totalProducts'] = $this->productModel->countAll();
-        $data['totalCustomers'] = $this->userModel->where('role', 'customer')->countAllResults();
+        $data['totalCustomers'] = $this->userModel
+            ->where('role', 'customer')
+            ->countAllResults();
+
+        // ✅ TOTAL REVENUE (hanya completed)
+        $totalRevenue = $this->orderModel
+            ->where('status', 'completed')
+            ->selectSum('total') // ganti jika nama kolom beda
+            ->first();
+
+        $data['totalRevenue'] = $totalRevenue['total'] ?? 0;
+
         $data['recentOrders'] = $this->orderModel
             ->select('orders.*, users.name')
             ->join('users', 'users.user_id = orders.user_id')

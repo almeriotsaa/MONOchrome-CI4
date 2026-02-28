@@ -47,15 +47,14 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
 
 // API Routes
 $routes->group('api', function($routes) {
-    $routes->get('products', 'Api\ProductController::index');
-    $routes->get('products/(:num)', 'Api\ProductController::show/$1');
-    $routes->post('products', 'Api\ProductController::create');
-    $routes->put('products/(:num)', 'Api\ProductController::update/$1');
-    $routes->delete('products/(:num)', 'Api\ProductController::delete/$1');
-    
-    $routes->get('orders', 'Api\OrderController::index');
-    $routes->get('orders/(:num)', 'Api\OrderController::show/$1');
-    $routes->post('orders', 'Api\OrderController::create');
+    $routes->resource('products', [
+        'controller' => 'Api\ProductController'
+    ]);
+
+    $routes->resource('orders', [
+        'controller' => 'Api\OrderController',
+        'only'       => ['index', 'show', 'update', 'delete']
+    ]);
 });
 
 // Route untuk menampilkan halaman checkout (Form Alamat & Pembayaran)

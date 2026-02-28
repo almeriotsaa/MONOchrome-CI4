@@ -83,11 +83,25 @@
                                     <td class=" text-xs font-bold tracking-widest">
                                         <?= date('M d, Y', strtotime($customer['created_at'])) ?>
                                     </td>
-                                    <td class=" text-right">
-                                        <button onclick="viewOrders(<?= $customer['user_id'] ?>)" class="text-[10px] font-bold uppercase tracking-widest hover:underline">
-                                            View Orders
-                                        </button>
-                                    </td>
+                                    <td class="text-right">
+    <div class="flex justify-end items-center gap-6">
+
+        <!-- VIEW ORDERS -->
+        <button 
+            onclick="viewOrders(<?= $customer['user_id'] ?>)"
+            class="text-[10px] font-bold uppercase tracking-widest hover:underline">
+            View Orders
+        </button>
+
+        <!-- DELETE -->
+        <button 
+            onclick="confirmDeleteCustomer(<?= $customer['user_id'] ?>)"
+            class="text-red-500 hover:text-red-700 transition">
+            <span class="material-symbols-outlined text-lg">delete</span>
+        </button>
+
+    </div>
+</td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>

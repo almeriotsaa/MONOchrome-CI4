@@ -55,13 +55,37 @@ class OrderController extends BaseController
 
     public function updateStatus($id)
     {
-        $status = $this->request->getPost('status');
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403);
+        }
 
-        $this->orderModel->update($id, [
-            'status' => $status
+        $orderModel = new \App\Models\OrderModel();
+
+        $order = $orderModel->find($id);
+        if (!$order) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Order tidak ditemukan'
+            ]);
+        }
+
+        $data = $this->request->getJSON(true);
+
+        if (!isset($data['status'])) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Status tidak boleh kosong'
+            ]);
+        }
+
+        $orderModel->update($id, [
+            'status' => $data['status']
         ]);
 
-        return redirect()->back()->with('success', 'Order status updated');
+        return $this->response->setJSON([
+            'status' => true,
+            'message' => 'Status berhasil diupdate'
+        ]);
     }
 
 
