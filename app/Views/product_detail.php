@@ -9,7 +9,7 @@
             <div class="aspect-[4/5] overflow-hidden bg-gray-50 border-thin">
                 <img 
                     alt="<?= esc($product['name_product']) ?> Main View" 
-                    class="w-full h-full object-cover grayscale" 
+                    class="w-full h-full object-cover" 
                     src="<?= base_url('uploads/' . $product['image']) ?>" />
             </div>
         </div>
