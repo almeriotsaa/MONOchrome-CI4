@@ -32,10 +32,10 @@ class DashboardController extends BaseController
             ->where('role', 'customer')
             ->countAllResults();
 
-        // ✅ TOTAL REVENUE (hanya completed)
+        
         $totalRevenue = $this->orderModel
             ->where('status', 'completed')
-            ->selectSum('total') // ganti jika nama kolom beda
+            ->selectSum('total') 
             ->first();
 
         $data['totalRevenue'] = $totalRevenue['total'] ?? 0;

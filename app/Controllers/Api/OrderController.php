@@ -9,7 +9,7 @@ class OrderController extends ResourceController
     protected $modelName = 'App\Models\OrderModel';
     protected $format    = 'json';
 
-    // GET /api/orders
+    
     public function index()
     {
         $orders = $this->model->findAll();
@@ -20,7 +20,7 @@ class OrderController extends ResourceController
         ]);
     }
 
-    // GET /api/orders/{id}
+    
     public function show($id = null)
     {
         $order = $this->model->find($id);
@@ -35,7 +35,7 @@ class OrderController extends ResourceController
         ]);
     }
 
-    // PUT /api/orders/{id}
+    
     public function update($id = null)
     {
         $order = $this->model->find($id);
@@ -56,7 +56,7 @@ class OrderController extends ResourceController
         ]);
     }
 
-    // DELETE /api/orders/{id}
+    
     public function delete($id = null)
     {
         $order = $this->model->find($id);
