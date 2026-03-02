@@ -2,6 +2,11 @@
 <?= $this->section('title') ?>Home<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
+<style>
+    * {
+        scroll-behavior: smooth;
+    }
+</style>
 
 <section class="h-screen w-full pt-16 px-12 pb-12">
     <div class="relative w-full h-full border-thin overflow-hidden group">
@@ -28,7 +33,7 @@
 </section>
 
 
-<section class="px-12 pb-64">
+<section class="px-12 pb-64" id="new_arrival">
     <div class="max-w-[1800px] mx-auto">
         <div class="flex justify-between items-baseline mb-24 border-thin-b pb-4">
             <h2 class="font-serif-luxury text-4xl">New Arrivals</h2>
@@ -36,21 +41,20 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-24">
             <?php foreach ($newArrivals as $item) : ?>
-            <a href="<?= base_url('detail/' . $item['product_id']) ?>" class="group relative">
-                <div class="aspect-[2/3] overflow-hidden bg-white border-thin">
-                    <img 
-                        alt="<?= esc($item['name_product']) ?>" 
-                        class="w-full h-full object-cover grayscale" 
-                        src="<?= base_url('uploads/' . $item['image']) ?>" 
-                    />
-                </div>
-                <div class="product-info absolute inset-0 bg-white/90 flex flex-col items-center justify-center opacity-0 transition-opacity duration-500 pointer-events-none px-6 text-center">
-                    <h4 class="text-[10px] uppercase tracking-[0.4em] mb-4"><?= esc($item['name_product']) ?></h4>
-                    <p class="text-[10px] font-light tracking-widest text-black/60">
-                        Rp <?= number_format($item['price'], 0, ',', '.') ?>
-                    </p>
-                </div>
-            </a>
+                <a href="<?= base_url('detail/' . $item['product_id']) ?>" class="group relative">
+                    <div class="aspect-[2/3] overflow-hidden bg-white border-thin">
+                        <img
+                            alt="<?= esc($item['name_product']) ?>"
+                            class="w-full h-full object-cover grayscale"
+                            src="<?= base_url('uploads/' . $item['image']) ?>" />
+                    </div>
+                    <div class="product-info absolute inset-0 bg-white/90 flex flex-col items-center justify-center opacity-0 transition-opacity duration-500 pointer-events-none px-6 text-center">
+                        <h4 class="text-[10px] uppercase tracking-[0.4em] mb-4"><?= esc($item['name_product']) ?></h4>
+                        <p class="text-[10px] font-light tracking-widest text-black/60">
+                            Rp <?= number_format($item['price'], 0, ',', '.') ?>
+                        </p>
+                    </div>
+                </a>
             <?php endforeach; ?>
         </div>
     </div>

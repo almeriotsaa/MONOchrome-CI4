@@ -51,11 +51,14 @@
             </div>
             <div class="flex items-center space-x-12">
                 <a class="nav-link" href="<?= base_url('collection') ?>">Shop</a>
+                <a class="nav-link" href="#new_arrival">New Arrival</a>
                 <button class="nav-link" onclick="toggleCart()" id="cartToggle">Cart (<span id="cartCount"><?= count_cart() ?></span>)</button>
                 <?php if (session()->get('logged_in')): ?>
                     <div class="relative group inline-block">
                         <button class="nav-link flex items-center gap-2">
-                            <span><?= session()->get('name') ?></span>
+                            <span>
+                                <?= explode(' ', session()->get('name'))[0]; ?>
+                            </span>
                             <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
                         </button>
 
@@ -69,6 +72,11 @@
                                     Dashboard
                                 </a>
                             <?php endif; ?>
+
+                            <a href="<?= base_url('my-orders') ?>"
+                                class="block px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white">
+                                My Orders
+                            </a>
 
                             <a href="<?= base_url('logout') ?>"
                                 class="block px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white">
@@ -111,36 +119,42 @@
         </div>
     </footer>
 
-<script>
-
-    function toggleCart() {
-        document.getElementById('cartSidebar').classList.toggle('translate-x-full');
-    }
-
-
-    async function addToCart(productId, quantity, size) {
-        const response = await fetch('<?= base_url('cart/add') ?>', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-            body: JSON.stringify({ product_id: productId, quantity: quantity, size: size })
-        });
-        const data = await response.json();
-        if (data.success) {
-            updateCartCount(data.cart_count);
-            loadCartItems();
-            toggleCart();
+    <script>
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('translate-x-full');
         }
-    }
 
-  
-    async function loadCartItems() {
-        const response = await fetch('<?= base_url('cart/get') ?>');
-        const data = await response.json();
-        const cartItems = document.getElementById('cartItems');
-        const cartTotal = document.getElementById('cartTotal');
 
-        if (data.items && data.items.length > 0) {
-            cartItems.innerHTML = data.items.map(item => `
+        async function addToCart(productId, quantity, size) {
+            const response = await fetch('<?= base_url('cart/add') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity,
+                    size: size
+                })
+            });
+            const data = await response.json();
+            if (data.success) {
+                updateCartCount(data.cart_count);
+                loadCartItems();
+                toggleCart();
+            }
+        }
+
+
+        async function loadCartItems() {
+            const response = await fetch('<?= base_url('cart/get') ?>');
+            const data = await response.json();
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (data.items && data.items.length > 0) {
+                cartItems.innerHTML = data.items.map(item => `
                 <div class="flex gap-4 border-b border-black/10 pb-4">
                     <div class="w-20 h-24 bg-gray-100">
                         <img src="<?= base_url('uploads/') ?>${item.image}" class="w-full h-full object-cover grayscale">
@@ -158,37 +172,43 @@
                     </div>
                 </div>
             `).join('');
-            if(cartTotal) cartTotal.textContent = `Rp ${data.total.toLocaleString()}`;
-        } else {
-            cartItems.innerHTML = '<p class="text-center text-[10px] uppercase tracking-widest text-black/40 py-8">Your cart is empty</p>';
-            if(cartTotal) cartTotal.textContent = 'Rp 0';
+                if (cartTotal) cartTotal.textContent = `Rp ${data.total.toLocaleString()}`;
+            } else {
+                cartItems.innerHTML = '<p class="text-center text-[10px] uppercase tracking-widest text-black/40 py-8">Your cart is empty</p>';
+                if (cartTotal) cartTotal.textContent = 'Rp 0';
+            }
         }
-    }
 
 
-    async function removeFromCart(id, size) {
-        if (!confirm('Remove this item?')) return;
-        const response = await fetch('<?= base_url('cart/remove') ?>', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-            body: JSON.stringify({ product_id: id, size: size })
-        });
-        const data = await response.json();
-        if (data.success) {
-            updateCartCount(data.cart_count);
-            loadCartItems();
-        } else {
-            alert("Gagal: " + (data.message || "Error"));
+        async function removeFromCart(id, size) {
+            if (!confirm('Remove this item?')) return;
+            const response = await fetch('<?= base_url('cart/remove') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    product_id: id,
+                    size: size
+                })
+            });
+            const data = await response.json();
+            if (data.success) {
+                updateCartCount(data.cart_count);
+                loadCartItems();
+            } else {
+                alert("Gagal: " + (data.message || "Error"));
+            }
         }
-    }
 
-    function updateCartCount(count) {
-        const elem = document.getElementById('cartCount');
-        if(elem) elem.textContent = count;
-    }
+        function updateCartCount(count) {
+            const elem = document.getElementById('cartCount');
+            if (elem) elem.textContent = count;
+        }
 
-    document.addEventListener('DOMContentLoaded', loadCartItems);
-</script>
+        document.addEventListener('DOMContentLoaded', loadCartItems);
+    </script>
 </body>
 
 </html>

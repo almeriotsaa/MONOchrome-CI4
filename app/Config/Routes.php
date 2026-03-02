@@ -19,10 +19,12 @@ $routes->post('/register', 'Auth::attemptRegister');
 $routes->get('/logout', 'Auth::logout');
 
 // Cart Routes (AJAX)
-$routes->post('/cart/add', 'Cart::add');
+$routes->post('cart/add', 'Cart::add', ['filter' => 'auth']);
 $routes->post('/cart/update', 'Cart::update');
 $routes->post('/cart/remove', 'Cart::remove');
 $routes->get('/cart/get', 'Cart::get');
+$routes->get('my-orders', 'Customer\OrderController::index');
+$routes->get('my-orders/(:num)', 'Customer\OrderController::detail/$1');
 
 // Admin Routes - Hanya bisa diakses oleh admin
 $routes->group('admin', ['filter' => 'admin'], function($routes) {
@@ -43,6 +45,7 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     
     // Customer Management
     $routes->get('customers', 'Admin\CustomerController::index');
+    $routes->get('customers/delete/(:num)', 'Admin\CustomerController::delete/$1');
 });
 
 // API Routes

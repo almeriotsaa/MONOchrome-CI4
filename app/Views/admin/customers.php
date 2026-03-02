@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -28,10 +29,11 @@
         }
     </script>
 </head>
+
 <body class="bg-white text-black font-sans antialiased overflow-x-hidden">
     <div class="flex min-h-screen">
         <?= $this->include('admin/sidebar') ?>
-        
+
         <main class="flex-1 flex flex-col min-w-0">
             <header class="h-20 border-b border-mono-border flex items-center justify-between px-8 bg-white/80 backdrop-blur-md sticky top-0 z-10">
                 <div class="flex flex-col">
@@ -49,7 +51,7 @@
                     </div>
                 </div>
             </header>
-            
+
             <div class="p-12 max-w-7xl mx-auto w-full">
                 <section class="bg-white">
                     <div class="mb-10 flex items-center justify-between">
@@ -57,7 +59,7 @@
                             All Registered Users (<?= count($customers) ?>)
                         </h2>
                     </div>
-                    
+
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse" id="customersTable">
                             <thead>
@@ -70,39 +72,39 @@
                             </thead>
                             <tbody class="divide-y divide-mono-border">
                                 <?php foreach ($customers as $customer): ?>
-                                <tr class="hover:bg-mono-light-gray transition-colors">
-                                    <td class="py-2">
-                                        <div class="flex items-center gap-4">
-                                            <div class="size-10 bg-mono-gray flex items-center justify-center text-[10px] font-bold grayscale border border-mono-border">
-                                                <?= substr($customer['name'], 0, 1) ?>
+                                    <tr class="hover:bg-mono-light-gray transition-colors">
+                                        <td class="py-2">
+                                            <div class="flex items-center gap-4">
+                                                <div class="size-10 bg-mono-gray flex items-center justify-center text-[10px] font-bold grayscale border border-mono-border">
+                                                    <?= substr($customer['name'], 0, 1) ?>
+                                                </div>
+                                                <span class="text-xs font-bold tracking-widest"><?= $customer['name'] ?></span>
                                             </div>
-                                            <span class="text-xs font-bold tracking-widest"><?= $customer['name'] ?></span>
-                                        </div>
-                                    </td>
-                                    <td class=" text-xs font-medium text-mono-soft"><?= $customer['email'] ?></td>
-                                    <td class=" text-xs font-bold tracking-widest">
-                                        <?= date('M d, Y', strtotime($customer['created_at'])) ?>
-                                    </td>
-                                    <td class="text-right">
-    <div class="flex justify-end items-center gap-6">
+                                        </td>
+                                        <td class=" text-xs font-medium text-mono-soft"><?= $customer['email'] ?></td>
+                                        <td class=" text-xs font-bold tracking-widest">
+                                            <?= date('M d, Y', strtotime($customer['created_at'])) ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="flex justify-end items-center gap-6">
 
-        <!-- VIEW ORDERS -->
-        <button 
-            onclick="viewOrders(<?= $customer['user_id'] ?>)"
-            class="text-[10px] font-bold uppercase tracking-widest hover:underline">
-            View Orders
-        </button>
+                                                <!-- VIEW ORDERS -->
+                                                <button
+                                                    onclick="viewOrders(<?= $customer['user_id'] ?>)"
+                                                    class="text-[10px] font-bold uppercase tracking-widest hover:underline">
+                                                    View Orders
+                                                </button>
 
-        <!-- DELETE -->
-        <button 
-            onclick="confirmDeleteCustomer(<?= $customer['user_id'] ?>)"
-            class="text-red-500 hover:text-red-700 transition">
-            <span class="material-symbols-outlined text-lg">delete</span>
-        </button>
+                                                <!-- DELETE -->
+                                                <button
+                                                    onclick="confirmDeleteCustomer(<?= $customer['user_id'] ?>)"
+                                                    class="text-red-500 hover:text-red-700 transition">
+                                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                                </button>
 
-    </div>
-</td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -113,26 +115,34 @@
     </div>
 
     <script>
-    function searchCustomers() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toUpperCase();
-        const table = document.getElementById('customersTable');
-        const tr = table.getElementsByTagName('tr');
+        function searchCustomers() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('customersTable');
+            const tr = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < tr.length; i++) {
-            const tdName = tr[i].getElementsByTagName('td')[0];
-            const tdEmail = tr[i].getElementsByTagName('td')[1];
-            if (tdName || tdEmail) {
-                const nameValue = tdName.textContent || tdName.innerText;
-                const emailValue = tdEmail.textContent || tdEmail.innerText;
-                tr[i].style.display = nameValue.toUpperCase().indexOf(filter) > -1 || emailValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+            for (let i = 1; i < tr.length; i++) {
+                const tdName = tr[i].getElementsByTagName('td')[0];
+                const tdEmail = tr[i].getElementsByTagName('td')[1];
+                if (tdName || tdEmail) {
+                    const nameValue = tdName.textContent || tdName.innerText;
+                    const emailValue = tdEmail.textContent || tdEmail.innerText;
+                    tr[i].style.display = nameValue.toUpperCase().indexOf(filter) > -1 || emailValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+                }
             }
         }
-    }
 
-    function viewOrders(userId) {
-        window.location.href = `<?= base_url('admin/orders') ?>?user_id=${userId}`;
-    }
+        function viewOrders(userId) {
+            window.location.href = `<?= base_url('admin/orders') ?>?user_id=${userId}`;
+        }
+    </script>
+    <script>
+        function confirmDeleteCustomer(userId) {
+            if (confirm("Are you sure want to delete this user?")) {
+                window.location.href = "<?= site_url('admin/customers/delete') ?>/" + userId;
+            }
+        }
     </script>
 </body>
+
 </html>
